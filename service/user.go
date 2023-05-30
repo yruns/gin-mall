@@ -54,7 +54,7 @@ func (s *EmailService) SendEmail(userId uint) *response.Response {
 	}
 
 	// 写入redis
-	database.Redis.SetEx(context.Background(), strconv.Itoa(int(userId)), verifyCode, time.Minute*3)
+	database.Redis.SetEx(context.Background(), "user:verify:"+strconv.Itoa(int(userId)), verifyCode, time.Minute*3)
 
 	return response.Ok()
 }

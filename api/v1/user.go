@@ -115,9 +115,9 @@ func VerifyEmail(c *gin.Context) {
 	userId, _ := c.Get("userId")
 
 	codeFromUser := c.Query("code")
-	codeFromDB, _ := database.Redis.Get(c, strconv.Itoa(int(userId.(uint)))).Result()
+	codeFromDB, _ := database.Redis.Get(c, "user:verify:"+strconv.Itoa(int(userId.(uint)))).Result()
 
-	if codeFromUser == codeFromDB {
+	if strings.EqualFold(codeFromDB, codeFromUser) {
 		response.Result(response.Ok(), c)
 	} else {
 		response.FailWithStatusCode(http.StatusOK, "验证失败", c)
