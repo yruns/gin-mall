@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"github.com/sirupsen/logrus"
 	"io"
 	"log"
@@ -25,8 +26,9 @@ func init() {
 
 	// 设置日志格式和输出方式
 	formatter := &logrus.TextFormatter{
-		TimestampFormat: "2006-01-02 15:04:05",
-		FullTimestamp:   true,
+		ForceColors:     true,                  // 强制使用颜色
+		FullTimestamp:   true,                  // 显示完整时间戳
+		TimestampFormat: "2006-01-02 15:04:05", // 时间戳格式
 	}
 	writer := io.MultiWriter(src, os.Stdout)
 
@@ -54,6 +56,8 @@ func setOutput() (*os.File, error) {
 		}
 	}
 
-	src, err := os.OpenFile(fileName, os.O_APPEND|os.O_WRONLY|os.O_CREATE, os.ModeAppend)
+	err = os.Chmod(fileName, 0666)
+	src, err := os.OpenFile(fileName, os.O_APPEND|os.O_RDWR|os.O_CREATE, os.ModeAppend)
+	fmt.Println(err)
 	return src, err
 }

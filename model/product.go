@@ -9,7 +9,7 @@ type Product struct {
 	Title         string
 	Info          string
 	ImgPath       string
-	Price         string
+	Price         float64
 	DiscountPrice string
 	OnSale        bool `gorm:"default:false"`
 	Num           uint

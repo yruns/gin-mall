@@ -36,6 +36,9 @@ func NewRouter() *gin.Engine {
 		authed.POST("/user/upload", api.UploadAvatar)
 		authed.POST("/user/email", api.SendEmail)
 		authed.GET("/user/verify", api.VerifyEmail)
+
+		// 商品操作
+		authed.POST("/product", api.CreateProduct)
 	}
 	return r
 }
