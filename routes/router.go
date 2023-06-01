@@ -33,7 +33,6 @@ func NewRouter() *gin.Engine {
 		v1.GET("/product/search", api.SearchProduct)
 		v1.GET("/product/:id", api.ShowProduct)
 		v1.GET("/category/list", api.ListCategory)
-		v1.PUT("/category", api.CreateCategory)
 
 		authed := v1.Group("/")                 // 需要登录操作
 		authed.Use(middleware.AuthMiddleware()) // jwt鉴权
@@ -44,6 +43,12 @@ func NewRouter() *gin.Engine {
 
 		// 商品操作
 		authed.POST("/product", api.CreateProduct)
+		authed.PUT("/category", api.CreateCategory)
+
+		// 收藏夹
+		authed.GET("/favorite", api.ShowFavorite)
+		authed.PUT("/favorite", api.AddFavorite)
+		authed.DELETE("/favorite/:id", api.DeleteFavorite)
 
 	}
 	return r

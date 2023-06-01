@@ -22,8 +22,10 @@ type ProductService struct {
 }
 
 func (s *ProductService) CreateProduct(userId uint, path string) *response.Response {
+	tx := database.Mysql.Begin() // 创建事务
+
 	var user model.User
-	err := database.Mysql.Table("user").Where("id = ?", userId).Find(&user).Error
+	err := tx.Table("user").Where("id = ?", userId).Find(&user).Error
 	if err != nil {
 		return response.FailWithMessage("找不到该用户")
 	}
@@ -36,8 +38,9 @@ func (s *ProductService) CreateProduct(userId uint, path string) *response.Respo
 	product.BossAvatar = user.Avatar
 	product.BossName = user.NickName
 
-	err = database.Mysql.Table("product").Create(&product).Error
+	err = tx.Table("product").Create(&product).Error
 	if err != nil {
+		tx.Rollback()
 		return response.FailWithMessage("商品信息保存失败")
 	}
 
@@ -47,9 +50,11 @@ func (s *ProductService) CreateProduct(userId uint, path string) *response.Respo
 	}
 	err = database.Mysql.Table("product_img").Create(&productImg).Error
 	if err != nil {
+		tx.Rollback()
 		return response.FailWithMessage("商品图片保存失败")
 	}
 
+	tx.Commit() // 提交事务
 	return response.OkWithData(product)
 }
 
