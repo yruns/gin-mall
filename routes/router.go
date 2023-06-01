@@ -39,6 +39,8 @@ func NewRouter() *gin.Engine {
 
 		// 商品操作
 		authed.POST("/product", api.CreateProduct)
+		authed.GET("/product/list", api.ListProduct)
+		authed.GET("/product/search", api.SearchProduct)
 	}
 	return r
 }
