@@ -26,7 +26,7 @@ type EmailService struct {
 	Email    string `json:"email" form:"email"`
 	Password string `json:"password" form:"password"`
 	// 1:绑定邮箱  2:解绑邮箱	 3:更改密码
-	OperationType uint `json:"operation_type" form:"operation_type"`
+	OperationType int64 `json:"operation_type" form:"operation_type"`
 }
 
 var EMAILNOTICE = [3]string{
@@ -49,7 +49,7 @@ func (s *EmailService) SendEmail(userId uint) *response.Response {
 	d := gomail.NewDialer(conf.SmtpHost, 465, conf.SmtpUser, conf.SmtpPass)
 
 	if err := d.DialAndSend(m); err != nil {
-		fmt.Println(err.Error())
+		utils.Logger.Info(err.Error())
 		return response.FailWithMessage("邮件发送失败，请重试")
 	}
 
@@ -118,7 +118,7 @@ func (s *UserService) Login() (*response.Response, *model.User) {
 	return response.OkWithData(user), &user
 }
 
-func (s *UserService) Update(userId uint) *response.Response {
+func (s *UserService) Update(userId int64) *response.Response {
 	var user model.User
 	_ = copier.Copy(&user, s)
 

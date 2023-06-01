@@ -1,3 +1,4 @@
 [36mINFO   [0m[2023-06-01 00:00:02] Carousel hit！！！&{0 [] success}               
-[36mINFO[0m[2023-06-01 14:07:16] <nil> <nil> strconv.ParseUint: parsing "": invalid syntax 
+[36mINFO[0m[2023-06-01 14:07:16] <nil> <nil> strconv.Parseint64: parsing "": invalid syntax
 [36mINFO[0m[2023-06-01 14:09:25] here                                         
+[36mINFO[0m[2023-06-01 18:18:25] Carousel hit！！！&{0 [] success}               

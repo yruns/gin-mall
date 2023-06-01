@@ -4,7 +4,7 @@ import "gorm.io/gorm"
 
 type Favorite struct {
 	gorm.Model
-	UserId    uint `gorm:"not null"`
-	ProductId uint `gorm:"not null"`
-	BossId    uint `gorm:"not null"`
+	UserId    uint  `gorm:"not null"`
+	ProductId int64 `gorm:"not null"`
+	BossId    int64 `gorm:"not null"`
 }

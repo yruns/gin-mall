@@ -2,6 +2,7 @@ package v1
 
 import (
 	"gin-mall/pkg/response"
+	"gin-mall/pkg/utils"
 	"gin-mall/service"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -41,13 +42,13 @@ func ListProduct(c *gin.Context) {
 
 	pageSize, e1 := strconv.Atoi(c.Query("pageSize"))
 	pageNum, e2 := strconv.Atoi(c.Query("pageNum"))
-	categoryId, e3 := strconv.ParseUint(c.Query("categoryId"), 10, 32)
+	categoryId, e3 := strconv.ParseInt(c.Query("categoryId"), 10, 64)
 	if e1 != nil || e2 != nil || e3 != nil {
 		response.FailWithStatusCode(http.StatusBadRequest, "参数错误", c)
 		return
 	}
 
-	res := productService.ListProduct(pageNum, pageSize, uint(categoryId))
+	res := productService.ListProduct(pageNum, pageSize, categoryId)
 	response.Result(res, c)
 }
 
@@ -63,5 +64,18 @@ func SearchProduct(c *gin.Context) {
 	}
 
 	res := productService.SearchProduct(pageNum, pageSize, productName)
+	response.Result(res, c)
+}
+
+func ShowProduct(c *gin.Context) {
+	var productService service.ProductService
+
+	productId, err := utils.Str2Uint(c.Param("id"))
+	if err != nil {
+		response.FailWithStatusCode(http.StatusBadRequest, "参数错误", c)
+		return
+	}
+
+	res := productService.QueryProductById(productId)
 	response.Result(res, c)
 }
