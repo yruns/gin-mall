@@ -50,6 +50,8 @@ func NewRouter() *gin.Engine {
 		authed.PUT("/favorite", api.AddFavorite)
 		authed.DELETE("/favorite/:id", api.DeleteFavorite)
 
+		// 支付操作
+
 	}
 	return r
 }
